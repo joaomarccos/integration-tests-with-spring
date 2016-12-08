@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package io.github.joaomarccos.testecommockspring.tomcat;
 
+import io.github.joaomarccos.testecommockspring.tomcat.service.HelloWorldService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +13,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 
 /**
@@ -43,5 +41,17 @@ public class SprintIntegrationTest {
     public void test() throws Exception{
         mvc.perform(get("/")).andExpect(status().isOk());
     }
+    
+    @Test
+    public void testMock(){
+        HelloWorldService mock = mock(HelloWorldService.class);
+        expect(mock.getHelloMessage()).andReturn("Hello");
+        replay(mock);
+        
+        assertEquals(mock.getHelloMessage(), "Hello");
+        verify(mock);
+        
+    }
+    
 
 }
